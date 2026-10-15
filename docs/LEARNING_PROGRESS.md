@@ -13,7 +13,7 @@
 | D01 | Cuarto de pruebas (delegada) | M1 | Completado |
 | T04 | Gravedad | M1 | Completado |
 | T05 | Movimiento horizontal | M1 | Completado |
-| T06 | Salto | M1 | No iniciado |
+| T06 | Salto | M1 | Completado |
 | T07 | Salto variable | M1 | No iniciado |
 | T08 | Animaciones | M1 | No iniciado |
 | T09 | Camera2D | M1 | No iniciado |
@@ -109,5 +109,15 @@ Plantilla (se copia a cada tarea cuando se empieza):
 - **Dificultades:** comentarios de dirección invertidos en el código; la variable exportada se llamó `SPEED` en lugar de `speed`.
 - **Dudas pendientes o conceptos por reforzar:** frenado suave con `move_toward` (opcional); experimento de quitar `delta` pendiente desde T04.
 - **Verificación o evidencia:** `scripts/player.gd` y Input Map revisados en `project.godot`; probé en F6: corre a ambos lados, se detiene al soltar, no atraviesa pared ni escalones y cae por el hueco.
+
+### T06 — Salto
+- **Estado:** Completado
+- **Fechas:** 2026-10-15 / 2026-10-15
+- **Qué aprendí:** un salto es asignar de golpe una velocidad negativa en Y (el eje Y de Godot apunta hacia abajo) y dejar que la gravedad la frene. `is_action_just_pressed` es verdadero solo en el frame de la pulsación; `is_action_pressed` lo es mientras la tecla siga abajo y haría rebotar al personaje. El salto no lleva `delta` porque se asigna una sola vez; `velocity` persiste entre frames y `move_and_slide()` aplica el `delta`. Todo lo que modifica `velocity` va antes de `move_and_slide()`.
+- **Qué implementé por mi cuenta:** acción `jump` (Space, con `physical_keycode`), `@export var jump_velocity: float = -250` y la condición `is_on_floor() and Input.is_action_just_pressed("jump")` que asigna `velocity.y = jump_velocity`. Moví el bloque del salto antes de `move_and_slide()` y cambié `+=` por `=`.
+- **Trabajo delegado:** ninguno.
+- **Dificultades:** el salto quedó primero después de `move_and_slide()` (se aplicaba un frame tarde) y usé `+=` en lugar de `=`.
+- **Dudas pendientes o conceptos por reforzar:** con `-250` el hueco de 3 tiles se cruza por muy poco; medir el alcance real en C01. Siguen pendientes el experimento sin `delta` (T04) y el frenado suave con `move_toward` (opcional).
+- **Verificación o evidencia:** `scripts/player.gd` y la acción `jump` en `project.godot` revisados; probé en F6: un salto por pulsación, no salta en el aire, mantener la tecla no rebota, conserva el movimiento horizontal y cruza el hueco por poco.
 
 *(Las secciones por tarea se añaden aquí conforme se trabajan.)*
