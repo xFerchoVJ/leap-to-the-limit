@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 @export var speed: float = 80
+@export var jump_velocity: float = -250
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 
 func _physics_process(delta: float) -> void:
@@ -16,6 +17,12 @@ func _physics_process(delta: float) -> void:
 	# Aplicar gravedad cuando esta en el aire
 	if not is_on_floor():
 		velocity += get_gravity() * delta
+
+	# Aplicar salto
+	if is_on_floor() and Input.is_action_just_pressed("jump"):
+		velocity.y = jump_velocity 
+	
+	# Siempre poner todo lo que modifica velocity antes de move_and_slide
 	move_and_slide()
 	
 	# Voltear personaje dependiendo la dirección
