@@ -14,7 +14,7 @@
 | T04 | Gravedad | M1 | Completado |
 | T05 | Movimiento horizontal | M1 | Completado |
 | T06 | Salto | M1 | Completado |
-| T07 | Salto variable | M1 | No iniciado |
+| T07 | Salto variable | M1 | Completado |
 | T08 | Animaciones | M1 | No iniciado |
 | T09 | Camera2D | M1 | No iniciado |
 | T10 | Plataformas one-way | M2 | No iniciado |
@@ -119,5 +119,15 @@ Plantilla (se copia a cada tarea cuando se empieza):
 - **Dificultades:** el salto quedó primero después de `move_and_slide()` (se aplicaba un frame tarde) y usé `+=` en lugar de `=`.
 - **Dudas pendientes o conceptos por reforzar:** con `-250` el hueco de 3 tiles se cruza por muy poco; medir el alcance real en C01. Siguen pendientes el experimento sin `delta` (T04) y el frenado suave con `move_toward` (opcional).
 - **Verificación o evidencia:** `scripts/player.gd` y la acción `jump` en `project.godot` revisados; probé en F6: un salto por pulsación, no salta en el aire, mantener la tecla no rebota, conserva el movimiento horizontal y cruza el hueco por poco.
+
+### T07 — Salto variable
+- **Estado:** Completado
+- **Fechas:** 2026-10-15 / 2026-10-15
+- **Qué aprendí:** al soltar la tecla de salto mientras sube (`velocity.y < 0`) se recorta la velocidad ascendente y la gravedad hace el resto; así la altura depende de cuánto se mantiene la tecla (*game feel*). `velocity.y` ya no vale -250 a mitad del salto porque la gravedad la va acercando a 0 en cada frame. Multiplicar por un factor suaviza el corte, mientras que `velocity.y = 0` lo frena en seco. La condición `velocity.y < 0` evita alterar la caída: sin ella, soltar la tecla cayendo frenaría al personaje en el aire.
+- **Qué implementé por mi cuenta:** `@export var jump_cut_factor: float = 0.5` y el bloque `if Input.is_action_just_released("jump") and velocity.y < 0` antes de `move_and_slide()`. Mi primera versión usaba `velocity *= jump_cut_factor`; lo corregí a `velocity.y *= jump_cut_factor` al notar que también recortaba `velocity.x`.
+- **Trabajo delegado:** ninguno.
+- **Dificultades:** multiplicar el vector completo en vez de solo la componente Y (el error se corregía solo en el frame siguiente porque `velocity.x` se reasigna cada frame, por eso casi no se notaba). Al predecir, supuse que `velocity.y` seguía en -400 tras soltar la tecla.
+- **Dudas pendientes o conceptos por reforzar:** un bug que "se arregla solo" se vuelve visible si `velocity.x` llegara a tener inercia (por ejemplo con `move_toward`). Siguen pendientes el experimento sin `delta` (T04) y el frenado suave (opcional).
+- **Verificación o evidencia:** `scripts/player.gd` revisado (línea 29 usa `velocity.y`); probé en F6: toque corto y tecla mantenida dan dos alturas claramente distintas. Confirmado por mí.
 
 *(Las secciones por tarea se añaden aquí conforme se trabajan.)*

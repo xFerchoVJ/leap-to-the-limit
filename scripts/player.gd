@@ -2,6 +2,8 @@ extends CharacterBody2D
 
 @export var speed: float = 80
 @export var jump_velocity: float = -250
+@export var jump_cut_factor: float = 0.5
+
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 
 func _physics_process(delta: float) -> void:
@@ -21,6 +23,10 @@ func _physics_process(delta: float) -> void:
 	# Aplicar salto
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
 		velocity.y = jump_velocity 
+		
+	# Recortar el salto al soltar la tecla
+	if Input.is_action_just_released("jump") and velocity.y < 0:
+		velocity.y *= jump_cut_factor
 	
 	# Siempre poner todo lo que modifica velocity antes de move_and_slide
 	move_and_slide()
