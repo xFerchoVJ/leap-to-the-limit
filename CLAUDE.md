@@ -10,6 +10,14 @@ Soy ingeniero Rails: conozco programación, Git, depuración y flujos de desarro
 - No traduzcas identificadores, nombres de archivos, APIs del motor, clases, nodos ni sintaxis. Se quedan en inglés.
 - La primera vez que aparezca un término técnico en inglés, explica brevemente qué significa.
 
+## Estilo de aprendizaje
+Soy una persona **visual**: entiendo mejor viendo las cosas.
+- Apóyate en diagramas ASCII (jerarquías de nodos, comparaciones lado a lado, esquemas de coordenadas) antes o junto con la explicación en texto.
+- Para conceptos que lo merezcan, ofrece una página visual o interactiva (Artifact), como una demo de Nearest vs. Linear.
+- En cada paso dime **qué debo ver** en el editor o en el juego, para comparar con mi pantalla.
+- Cuando me pidas predecir (regla 10), pídeme que describa o dibuje lo que espero ver.
+- Puedo pasarte capturas de pantalla; revísalas y dime qué observas.
+
 ## Proyecto
 - **Juego:** *Salto al Límite* (nombre provisional), un plataformero 2D. El caballero corre, salta entre plataformas, esquiva slimes, recoge monedas y llega a la meta.
 - **Motor:** Godot 4.7, renderer GL Compatibility, GDScript tipado.

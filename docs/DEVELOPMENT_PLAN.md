@@ -36,9 +36,9 @@ Correr → saltar → recoger monedas → esquivar slimes y huecos → llegar a 
 ## Dependencias entre funcionalidades
 ```
 M0 → M1 → M2 ─────────────┐
-       ├→ M3 ─────────────┤
-       ├→ M4 (T13→T16) ───┼→ D03 → M6 → M7
-       └→ M5 (T17→T18) ───┘
+	   ├→ M3 ─────────────┤
+	   ├→ M4 (T13→T16) ───┼→ D03 → M6 → M7
+	   └→ M5 (T17→T18) ───┘
 ```
 - Casi todo depende del jugador (M1): no hay moneda, slime ni plataforma móvil que probar sin saltar.
 - El nivel principal (D02) necesita saber hasta dónde salta el jugador (C01) y las plataformas one-way (T10).
