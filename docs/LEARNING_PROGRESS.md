@@ -15,7 +15,7 @@
 | T05 | Movimiento horizontal | M1 | Completado |
 | T06 | Salto | M1 | Completado |
 | T07 | Salto variable | M1 | Completado |
-| T08 | Animaciones | M1 | No iniciado |
+| T08 | Animaciones | M1 | Completado |
 | T09 | Camera2D | M1 | No iniciado |
 | T10 | Plataformas one-way | M2 | No iniciado |
 | C01 | Medir el alcance del salto | M2 | No iniciado |
@@ -129,5 +129,15 @@ Plantilla (se copia a cada tarea cuando se empieza):
 - **Dificultades:** multiplicar el vector completo en vez de solo la componente Y (el error se corregía solo en el frame siguiente porque `velocity.x` se reasigna cada frame, por eso casi no se notaba). Al predecir, supuse que `velocity.y` seguía en -400 tras soltar la tecla.
 - **Dudas pendientes o conceptos por reforzar:** un bug que "se arregla solo" se vuelve visible si `velocity.x` llegara a tener inercia (por ejemplo con `move_toward`). Siguen pendientes el experimento sin `delta` (T04) y el frenado suave (opcional).
 - **Verificación o evidencia:** `scripts/player.gd` revisado (línea 29 usa `velocity.y`); probé en F6: toque corto y tecla mantenida dan dos alturas claramente distintas. Confirmado por mí.
+
+### T08 — Animaciones
+- **Estado:** Completado
+- **Fechas:** 2026-10-15 / 2026-10-15
+- **Qué aprendí:** la animación se deduce cada frame del estado (aire antes que suelo; en el aire, el signo de `velocity.y` separa `jump` de `fall`). `play()` con la animación que ya se reproduce no la reinicia, por eso es seguro llamarlo cada frame. Evaluar `velocity.x` después de `move_and_slide()` refleja lo que realmente pasó: contra una pared vale 0 y se ve `idle`; usar `direction` reflejaría lo que el jugador quiere. `flip_h` solo cambia con input, así que conserva la dirección al detenerse.
+- **Qué implementé por mi cuenta:** animaciones `run` (16 frames, filas y=64 y y=96, 10 FPS), `jump` y `fall` de 1 frame en `SpriteFrames`, y la selección de animación en `_physics_process` con `is_on_floor()` y `velocity.y`.
+- **Trabajo delegado:** a petición mía, Claude cambió el frame de `fall` en `scenes/player.tscn` (línea 8) de `Rect2(96, 224, 32, 32)` (caballero tumbado de `DEATH`) a `Rect2(64, 160, 32, 32)` (frame de `ROLL` inclinado). Nada más.
+- **Dificultades:** elegí por error un frame de `DEATH` para `fall`; en la predicción creí que `play()` repetido reinicia la animación (no lo hace).
+- **Dudas pendientes o conceptos por reforzar:** contra una pared se ve `idle` porque la condición usa `velocity.x`; si luego molesta, cambiar a `direction`. `jump` usa un frame de `run`, mejorable si hace falta. Siguen pendientes el experimento sin `delta` (T04) y el frenado suave (opcional).
+- **Verificación o evidencia:** `scripts/player.gd` y `player.tscn` revisados; probé en F6 las cuatro animaciones y la dirección al detenerme. Confirmado por mí.
 
 *(Las secciones por tarea se añaden aquí conforme se trabajan.)*

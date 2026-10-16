@@ -30,11 +30,29 @@ func _physics_process(delta: float) -> void:
 	
 	# Siempre poner todo lo que modifica velocity antes de move_and_slide
 	move_and_slide()
-	
-	# Voltear personaje dependiendo la dirección
+			
+	flip_player(direction)
+	apply_animations(velocity)
+		
+		
+func flip_player(direction):
+ 	#Voltear personaje dependiendo la dirección
 	if direction > 0: # Ir a la derecha
 		animated_sprite_2d.flip_h = false
 	elif direction < 0: # Ir a la izquierda
 		animated_sprite_2d.flip_h = true
-		
-		
+
+func apply_animations(velocity):
+	# Aplicar animaciones
+	if is_on_floor():
+		# En el suelo, movimiento horizontal
+		if velocity.x != 0:
+			animated_sprite_2d.play("run")
+		else:
+			animated_sprite_2d.play("idle")
+	else:
+		# En el aire
+		if velocity.y < 0:
+			animated_sprite_2d.play("jump")
+		else:
+			animated_sprite_2d.play("fall")
