@@ -16,7 +16,7 @@
 | T06 | Salto | M1 | Completado |
 | T07 | Salto variable | M1 | Completado |
 | T08 | Animaciones | M1 | Completado |
-| T09 | Camera2D | M1 | No iniciado |
+| T09 | Camera2D | M1 | Completado |
 | T10 | Plataformas one-way | M2 | No iniciado |
 | C01 | Medir el alcance del salto | M2 | No iniciado |
 | D02 | Layout del nivel principal (delegada) | M2 | No iniciado |
@@ -139,5 +139,15 @@ Plantilla (se copia a cada tarea cuando se empieza):
 - **Dificultades:** elegí por error un frame de `DEATH` para `fall`; en la predicción creí que `play()` repetido reinicia la animación (no lo hace).
 - **Dudas pendientes o conceptos por reforzar:** contra una pared se ve `idle` porque la condición usa `velocity.x`; si luego molesta, cambiar a `direction`. `jump` usa un frame de `run`, mejorable si hace falta. Siguen pendientes el experimento sin `delta` (T04) y el frenado suave (opcional).
 - **Verificación o evidencia:** `scripts/player.gd` y `player.tscn` revisados; probé en F6 las cuatro animaciones y la dirección al detenerme. Confirmado por mí.
+
+### T09 — Camera2D
+- **Estado:** Completado
+- **Fechas:** 2026-10-15 / 2026-10-15
+- **Qué aprendí:** una `Camera2D` hija del jugador lo sigue sin código. `position_smoothing` hace que la cámara lo persiga con retraso y evita tirones. Los límites son coordenadas del mundo en píxeles; se calculan con el **conteo** de tiles × 16 (la última fila 10 son 11 filas, 176 px), no con el índice del último tile. Si el rango de los límites es más chico que el viewport (176 < 180), Godot no puede respetarlos y se ve un pequeño vacío; en un nivel más grande que la pantalla no pasa.
+- **Qué implementé por mi cuenta:** `Camera2D` como hija de `Player` en `player.tscn`, con suavizado activado y límites `Left` 0, `Top` 0, `Right` 320 y `Bottom` 176 (calculé yo los dos últimos).
+- **Trabajo delegado:** ninguno. Claude decodificó el `tile_map_data` para darme la extensión del mapa (columnas 0–19, filas 4–10).
+- **Dificultades:** al principio no entendía qué eran los límites; se aclaró con el diagrama del conteo de tiles frente al índice.
+- **Dudas pendientes o conceptos por reforzar:** en `test_room` el mundo mide lo mismo que la pantalla de ancho, así que la cámara no se desplaza horizontalmente; los límites se verán de verdad en `level_01`. Siguen pendientes el experimento sin `delta` (T04) y el frenado suave (opcional).
+- **Verificación o evidencia:** `scenes/player.tscn` revisado (líneas 200–205); probé en F6: el suavizado se nota sin límites, con límites no aparece vacío a los lados y se ve un vacío pequeño abajo, explicado por el rango de 176 px. Confirmado por mí.
 
 *(Las secciones por tarea se añaden aquí conforme se trabajan.)*
