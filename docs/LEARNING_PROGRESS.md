@@ -17,7 +17,7 @@
 | T07 | Salto variable | M1 | Completado |
 | T08 | Animaciones | M1 | Completado |
 | T09 | Camera2D | M1 | Completado |
-| T10 | Plataformas one-way | M2 | No iniciado |
+| T10 | Plataformas one-way | M2 | Completado |
 | C01 | Medir el alcance del salto | M2 | No iniciado |
 | D02 | Layout del nivel principal (delegada) | M2 | No iniciado |
 | T11 | Moneda animada | M3 | No iniciado |
@@ -149,5 +149,15 @@ Plantilla (se copia a cada tarea cuando se empieza):
 - **Dificultades:** al principio no entendía qué eran los límites; se aclaró con el diagrama del conteo de tiles frente al índice.
 - **Dudas pendientes o conceptos por reforzar:** en `test_room` el mundo mide lo mismo que la pantalla de ancho, así que la cámara no se desplaza horizontalmente; los límites se verán de verdad en `level_01`. Siguen pendientes el experimento sin `delta` (T04) y el frenado suave (opcional).
 - **Verificación o evidencia:** `scenes/player.tscn` revisado (líneas 200–205); probé en F6: el suavizado se nota sin límites, con límites no aparece vacío a los lados y se ve un vacío pequeño abajo, explicado por el rango de 176 px. Confirmado por mí.
+
+### T10 — Plataformas one-way
+- **Estado:** Completado
+- **Fechas:** 2026-10-16 / 2026-10-16
+- **Qué aprendí:** la colisión one-way es una propiedad del polígono de cada tile en el `TileSet` (casilla `one_way`), no del jugador ni del `TileMapLayer`; por eso un mismo `TileSet` mezcla tiles sólidos y one-way sin tocar `player.gd`. El grosor del polígono no decide el sentido: incluso un tile completo se atraviesa desde abajo. La franja delgada solo sirve para que el jugador quede alineado con el dibujo.
+- **Qué implementé por mi cuenta:** polígono de franja delgada (~2.5 px, arriba del tile) con `one_way = true` en los tiles de cuerda `(10,0)`, `(10,1)` y `(10,2)` del atlas, y plataformas pintadas en `test_room.tscn`: tres en fila sobre el hueco, `(15,6)` y `(17,5)`.
+- **Trabajo delegado:** ninguno.
+- **Dificultades:** mi predicción inicial fue incorrecta: pensé que un polígono completo bloquearía desde abajo aunque fuera one-way. Quedó aclarado.
+- **Dudas pendientes o conceptos por reforzar:** el borde superior del polígono quedó con una inclinación de 0.18 px (puntos `-5.935` y `-6.115`); es cosmético y puede igualarse con snap. El alcance real del salto se medirá en C01.
+- **Verificación o evidencia:** `scenes/test_room.tscn` revisado (solo los tres tiles de cuerda tienen `one_way`; suelo y paredes sin cambios); probé en F6: atravieso desde abajo, aterrizo encima, llego a las plataformas y el suelo sigue bloqueando. Confirmado por mí.
 
 *(Las secciones por tarea se añaden aquí conforme se trabajan.)*
