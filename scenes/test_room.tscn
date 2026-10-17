@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://s381vk3seqm5" path="res://assets/sprites/world_tileset.png" id="1_im37l"]
 [ext_resource type="PackedScene" uid="uid://dqw1pbj56tvnn" path="res://scenes/player.tscn" id="2_4adyp"]
+[ext_resource type="PackedScene" uid="uid://mfjbt0f6hrdl" path="res://scenes/coin.tscn" id="3_h8avn"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_j8ivh"]
 texture = ExtResource("1_im37l")
@@ -179,3 +180,6 @@ tile_set = SubResource("TileSet_u0ya7")
 
 [node name="Player" parent="." unique_id=2102011236 instance=ExtResource("2_4adyp")]
 position = Vector2(12, 88)
+
+[node name="Coin" parent="." unique_id=831460563 instance=ExtResource("3_h8avn")]
+position = Vector2(78, 103)
