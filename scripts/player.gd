@@ -6,6 +6,8 @@ extends CharacterBody2D
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 
+var is_dead: bool = false
+
 func _physics_process(delta: float) -> void:
 	#Obtener la dirección del movimiento
 	var direction: float = Input.get_axis("move_left", "move_right")
@@ -56,3 +58,11 @@ func apply_animations(velocity):
 			animated_sprite_2d.play("jump")
 		else:
 			animated_sprite_2d.play("fall")
+			
+			
+func die() -> void:
+	if is_dead:
+		return
+	is_dead = true
+	set_physics_process(false)
+	animated_sprite_2d.play("die")
