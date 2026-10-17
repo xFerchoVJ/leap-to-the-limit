@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dwv1yiuyi6kec"]
+
+[ext_resource type="FontFile" uid="uid://o1or0o47um8r" path="res://assets/fonts/PixelOperator8.ttf" id="1_ahhtf"]
+[ext_resource type="Script" uid="uid://bpayhvijs2wn3" path="res://scripts/hud.gd" id="1_oo0fn"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_u0ya7"]
+font = ExtResource("1_ahhtf")
+font_size = 8
+
+[node name="HUD" type="CanvasLayer" unique_id=1199763841]
+script = ExtResource("1_oo0fn")
+
+[node name="Label" type="Label" parent="." unique_id=1990495359]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Monedas: 0"
+label_settings = SubResource("LabelSettings_u0ya7")
