@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var hud: CanvasLayer = $HUD
 @onready var player: CharacterBody2D = $Player
+@onready var kill_zone: Area2D = $KillZone
 
 const COINS_GROUP: String = "coins"
 const SLIME_GROUP: String = "enemies"
@@ -17,7 +18,9 @@ func _ready() -> void:
 		coin.collected.connect(_on_coin_collected)
 	
 	for enemy in enemies:
-		enemy.hit_player.connect(_on_hit_player)
+		enemy.hit_player.connect(_on_die_player)
+		
+	kill_zone.hit_player.connect(_on_die_player)
 		
 		
 func _on_coin_collected() -> void:
@@ -25,7 +28,7 @@ func _on_coin_collected() -> void:
 	hud.update_label(collected_coins)
 	
 	
-func _on_hit_player() -> void:
+func _on_die_player() -> void:
 	if player.is_dead:
 		return
 	player.die()

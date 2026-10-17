@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dwv1yiuyi6kec" path="res://scenes/hud.tscn" id="4_j60wy"]
 [ext_resource type="PackedScene" uid="uid://mfjbt0f6hrdl" path="res://scenes/coin.tscn" id="5_j60wy"]
 [ext_resource type="PackedScene" uid="uid://c7655iv0matml" path="res://scenes/slime.tscn" id="6_qgxqk"]
+[ext_resource type="PackedScene" uid="uid://bu16cdguqnp7k" path="res://scenes/kill_zone.tscn" id="7_t0ybu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_j8ivh"]
 texture = ExtResource("1_im37l")
@@ -224,5 +225,8 @@ position = Vector2(1095, 119)
 
 [node name="Slime" parent="." unique_id=1855283021 instance=ExtResource("6_qgxqk")]
 position = Vector2(295, 131)
+
+[node name="KillZone" parent="." unique_id=1169247529 instance=ExtResource("7_t0ybu")]
+position = Vector2(11, 205)
 
 [editable path="Player"]
