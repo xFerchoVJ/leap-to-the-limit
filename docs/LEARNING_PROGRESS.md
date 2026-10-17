@@ -18,7 +18,7 @@
 | T08 | Animaciones | M1 | Completado |
 | T09 | Camera2D | M1 | Completado |
 | T10 | Plataformas one-way | M2 | Completado |
-| C01 | Medir el alcance del salto | M2 | No iniciado |
+| C01 | Medir el alcance del salto | M2 | Completado |
 | D02 | Layout del nivel principal (delegada) | M2 | No iniciado |
 | T11 | Moneda animada | M3 | No iniciado |
 | T12 | HUD de puntaje | M3 | No iniciado |
@@ -159,5 +159,17 @@ Plantilla (se copia a cada tarea cuando se empieza):
 - **Dificultades:** mi predicción inicial fue incorrecta: pensé que un polígono completo bloquearía desde abajo aunque fuera one-way. Quedó aclarado.
 - **Dudas pendientes o conceptos por reforzar:** el borde superior del polígono quedó con una inclinación de 0.18 px (puntos `-5.935` y `-6.115`); es cosmético y puede igualarse con snap. El alcance real del salto se medirá en C01.
 - **Verificación o evidencia:** `scenes/test_room.tscn` revisado (solo los tres tiles de cuerda tienen `one_way`; suelo y paredes sin cambios); probé en F6: atravieso desde abajo, aterrizo encima, llego a las plataformas y el suelo sigue bloqueando. Confirmado por mí.
+
+### C01 — Medir el alcance del salto
+- **Estado:** Completado
+- **Fechas:** 2026-10-16 / 2026-10-16
+- **Qué aprendí:** el alcance sale de `jump_velocity` (-250), la gravedad (980 px/s²) y `speed` (80). Altura: `v² / (2g) ≈ 32 px`, unos 2 tiles. Hueco: ~41 px de recorrido del centro durante ~0.51 s en el aire, más hasta 12 px por el ancho del cuerpo (12 px) y `is_on_floor()` en el borde, ~53 px: unos 3 tiles, pero con margen de pocos frames. Con `Editable Children` se cambia un nodo interno de una instancia (la `Camera2D` del jugador) sin tocar `player.tscn`.
+- **Qué implementé por mi cuenta:** medí el salto completo en `jump_test.tscn`, movi al jugador pasado el pilar de 3 tiles y arreglé los límites de la cámara.
+- **Trabajo delegado:** `scenes/jump_test.tscn` (escena nueva con escalones de 1, 2 y 3 tiles, huecos de 2, 3 y 4, y `TileSet` copiado de `test_room`). El pilar de 3 tiles bloqueaba el acceso a los huecos y el override de cámara no se guardó; ambos se corrigieron en el editor.
+- **Resultados:** altura máxima **2 tiles** (el de 3 no); hueco máximo **3 tiles**, apenas (el de 4 no). Mi predicción: altura 2 ✅, hueco 2 ❌ (la cuenta daba 3). Predicción de Claude: altura 2 ✅, hueco 3 ✅.
+- **Valores de diseño (80%):** altura **1 tile** normal (2 solo como reto); hueco **2 tiles** como máximo (el de 3 queda fuera). Confirmado por mí.
+- **Dudas pendientes o conceptos por reforzar:** si cambia `jump_velocity` hay que remedir. El salto corto de T07 no se midió.
+- **Verificación o evidencia:** probé en F6 con `jump_test.tscn`: escalones 1 y 2 sí, 3 no; huecos de 2 y 3 sí (el de 3 apenas), el de 4 no. Confirmado por mí.
+
 
 *(Las secciones por tarea se añaden aquí conforme se trabajan.)*
