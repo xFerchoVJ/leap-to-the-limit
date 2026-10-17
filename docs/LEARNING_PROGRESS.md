@@ -20,7 +20,7 @@
 | T10 | Plataformas one-way | M2 | Completado |
 | C01 | Medir el alcance del salto | M2 | Completado |
 | D02 | Layout del nivel principal (delegada) | M2 | Completado |
-| T11 | Moneda animada | M3 | No iniciado |
+| T11 | Moneda animada | M3 | Completado |
 | T12 | HUD de puntaje | M3 | No iniciado |
 | T13 | Escena Slime | M4 | No iniciado |
 | T14 | Patrulla con RayCast2D | M4 | No iniciado |
@@ -180,5 +180,15 @@ Plantilla (se copia a cada tarea cuando se empieza):
 - **Dificultades:** ninguna; apliqué lo aprendido en `jump_test.tscn` (el override de la cámara con `[editable path="Player"]`).
 - **Dudas pendientes o conceptos por reforzar:** las medidas de C01 (escalones de 1 tile, huecos de 2) se respetan, pero la comodidad de cada salto es subjetiva y se ajustará al jugar. La meta y la plataforma móvil llegan en D03/T17/T19.
 - **Verificación o evidencia:** se decodificó `tile_map_data`: ningún escalón supera 1 tile, ningún hueco pasa de 2, los tiles de `Decor` existen en el `TileSet`, no tienen colisión y no solapan el terreno. Probé en F5/F6 y se ve y se juega bien. Confirmado por mí.
+
+### T11 — Moneda animada
+- **Estado:** Completado
+- **Fechas:** 2026-10-16 / 2026-10-16
+- **Qué aprendí:** un `Area2D` detecta cuerpos sin bloquearlos y avisa con `body_entered`. Hay dos filtros: la mask (física, la hace el motor) y el grupo (en el script); es como un `WHERE` frente a filtrar en Ruby. Si la mask incluyera `world`, el `TileMapLayer` también dispararía `body_entered`, pero el grupo lo descartaría. La señal `collected` se emite antes de `queue_free()` para que quien escuche (el HUD, en T12) se entere; la moneda no sabe quién escucha ("signal up").
+- **Qué implementé por mi cuenta:** `scenes/coin.tscn` (`Area2D` en la layer `pickup`, mask `player`, `AnimatedSprite2D` con 12 frames de 16x16 a 8 fps en bucle con autoplay, colisión circular de radio ~4 px), `scripts/coin.gd` (señal tipada `collected`, comprobación del grupo `player`, `emit` y `queue_free()`), el grupo `player` en `player.tscn` y una moneda de prueba en `test_room.tscn`.
+- **Trabajo delegado:** ninguno.
+- **Dificultades:** ninguna relevante. Mis predicciones: con `world` en la mask "sigue igual" (casi: el grupo descarta el suelo) y sin `emit` nadie se entera (correcto).
+- **Dudas pendientes o conceptos por reforzar:** quitar el `print` de depuración cuando el HUD (T12) conecte `collected`. El radio 4.12 podría redondearse.
+- **Verificación o evidencia:** `coin.tscn`, `coin.gd` y `player.tscn` revisados (layers, 12 regiones, señal y conexión). Probé en F6 en `test_room.tscn`: la moneda gira, desaparece una sola vez al tocarla y no se recoge si no la toco. Confirmado por mí.
 
 *(Las secciones por tarea se añaden aquí conforme se trabajan.)*
