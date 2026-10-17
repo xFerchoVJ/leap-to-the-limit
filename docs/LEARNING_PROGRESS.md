@@ -22,10 +22,10 @@
 | D02 | Layout del nivel principal (delegada) | M2 | Completado |
 | T11 | Moneda animada | M3 | Completado |
 | T12 | HUD de puntaje | M3 | Completado |
-| T13 | Escena Slime | M4 | No iniciado |
-| T14 | Patrulla con RayCast2D | M4 | No iniciado |
-| T15 | Muerte y reinicio con Timer | M4 | No iniciado |
-| T16 | Kill zone | M4 | No iniciado |
+| T13 | Escena Slime | M4 | Completado |
+| T14 | Patrulla con RayCast2D | M4 | Completado |
+| T15 | Muerte y reinicio con Timer | M4 | Completado |
+| T16 | Kill zone | M4 | En progreso |
 | T17 | Plataforma móvil | M5 | No iniciado |
 | T18 | Recorrido configurable | M5 | No iniciado |
 | D03 | Poblar el nivel (delegada) | M5 | No iniciado |
@@ -200,5 +200,35 @@ Plantilla (se copia a cada tarea cuando se empieza):
 - **Dificultades:** no encontraba dónde quitar el antialiasing; está en el panel *Import* de la fuente. Mis predicciones: el label se queda atrás sin `CanvasLayer` (correcto) y el contador vive en el nivel porque coordina (correcto).
 - **Dudas pendientes o conceptos por reforzar:** tipar mejor `hud` y `coin.collected` (por ejemplo con `class_name`) si luego se quiere más seguridad; renombrar `collected_coins` a `score` es cuestión de gusto.
 - **Verificación o evidencia:** `hud.tscn`, `hud.gd`, `level_01.gd`, `coin.tscn` y `level_01.tscn` revisados (nueve monedas con grupo, cámara conservada). Probé en F6 en `level_01.tscn`: el HUD sube de 1 en 1, se queda fijo con la cámara y la fuente se ve nítida. Confirmado por mí.
+
+### T13 — Escena Slime
+- **Estado:** Completado
+- **Fechas:** 2026-10-16 / 2026-10-16
+- **Qué aprendí:** la escena de un enemigo repite la estructura del jugador: `CharacterBody2D` + `AnimatedSprite2D` + `CollisionShape2D`. Sin gravedad un `CharacterBody2D` se queda en el aire; sin `world` en la mask atraviesa el suelo y cae sin fin. La layer dice qué es el cuerpo y la mask qué escanea. El valor de `collision_layer` es el bit (layer 3 `enemy` = 4), y si la mask no aparece en el `.tscn` vale el valor por defecto (1 = `world`).
+- **Qué implementé por mi cuenta:** `scenes/slime.tscn` (raíz `Slime`, layer `enemy`, mask `world`, `AnimatedSprite2D` con `idle` de 4 frames de 24x24 a 8 FPS en bucle con autoplay, colisión de 14x12 en `(0, 6)`), `scripts/slime.gd` con la gravedad de T04 y una instancia de prueba en `test_room.tscn`.
+- **Trabajo delegado:** ninguno.
+- **Dificultades:** ninguna relevante. Mis predicciones (sin gravedad se queda en el aire, sin mask atraviesa los tiles) fueron correctas.
+- **Dudas pendientes o conceptos por reforzar:** no respondí por qué el jugador no choca físicamente con el slime ni qué nodo detectará el contacto en T15 (un `Area2D`); retomarlo ahí. `speed` está sin tipo y sin usar; tiparlo en T14. Confirmar que la mask `world` es explícita en el Inspector.
+- **Verificación o evidencia:** `slime.tscn` y `slime.gd` revisados (layer 4, frames, colisión alineada con el borde inferior). Probé en F6: el slime cae, aterriza, se queda quieto y se anima. Confirmado por mí.
+
+### T14 — Patrulla con RayCast2D
+- **Estado:** Completado
+- **Fechas:** 2026-10-16 / 2026-10-16
+- **Qué aprendí:** un `RayCast2D` es un rayo que solo consulta (`is_colliding()`), no bloquea nada. Se adelanta del cuerpo para detectar el borde antes de que el slime quede colgando, y debe moverse al otro lado al voltear (si no, mira hacia atrás y el slime cae por el borde contrario). Patrullar por el entorno reemplaza el recorrido por distancia de Coin Collector. `is_on_wall()` solo es válido después de `move_and_slide()`. "El rayo no choca" es ambiguo en el aire (borde o caída), por eso el giro se condiciona a `is_on_floor()`.
+- **Qué implementé por mi cuenta:** `RayCast2D` en `(8, 0)` con `target_position (0, 15)` (mask `world`), `scripts/slime.gd` con dirección, `speed` tipado, `flip_character()` (invierte dirección, `flip_h` y `position.x` del rayo) y el grupo `enemies` en `slime.tscn`.
+- **Trabajo delegado:** ninguno.
+- **Dificultades:** mi primera versión volteaba también mientras caía (el rayo no choca en el aire); lo resolví encerrando el giro en `if is_on_floor()`. Mis predicciones sobre el rayo en el centro y sin mover el raycast fueron correctas en lo esencial.
+- **Dudas pendientes o conceptos por reforzar:** mientras cae, el slime conserva `velocity.x` (decisión de diseño aceptada). Una pared en el aire no lo hace girar. Sigue pendiente la pregunta de T13 sobre qué nodo detecta el contacto con el jugador (T15).
+- **Verificación o evidencia:** `slime.gd` y `slime.tscn` revisados. Probé en F6: cae desde el aire sin girar de más, recorre una plataforma de lado a lado sin caerse y se voltea contra una pared. Confirmado por mí.
+
+### T15 — Muerte y reinicio con Timer
+- **Estado:** Completado
+- **Fechas:** 2026-10-16 / 2026-10-16
+- **Qué aprendí:** "slime avisa, nivel decide, jugador reacciona": el slime emite `hit_player`, el nivel llama a `player.die()` y el jugador cambia su propio estado. `body_entered` se dispara al entrar, no cada frame; sin bandera, varias llamadas lanzarían varios `await` y varios `reload_current_scene()`. `await get_tree().create_timer(1.0).timeout` pausa solo esa función. Si se reinicia sin esperar, la animación de muerte no llega a verse.
+- **Qué implementé por mi cuenta:** `HitArea` (`Area2D`, layer `enemy`, mask `player`, forma 8x6) en `slime.tscn`, señal `hit_player` en `slime.gd`, `die()` con bandera `is_dead` y `set_physics_process(false)` en `player.gd`, animación `die` (sin bucle) en `player.tscn`, y en `level_01.gd` la conexión de los `enemies`, la espera de 1 s y `reload_current_scene()`. Un slime colocado en `level_01.tscn`.
+- **Trabajo delegado:** ninguno.
+- **Dificultades:** ninguna relevante. Mis predicciones (N llamadas sin bandera; sin espera no se ve la animación) fueron correctas.
+- **Dudas pendientes o conceptos por reforzar:** (1) revisar los frames de `die`: usan la fila HIT (y=192) y un frame de ROLL `(96,160)`; la fila DEATH está en y=224. (2) `set_physics_process(false)` deja al jugador flotando si muere en el aire; no reporté cómo se ve ni si quiero cambiarlo. (3) No respondí por qué el jugador no choca físicamente con el slime (un `Area2D` detecta sin bloquear). (4) Quedó guardado en `player.tscn` `animation = die`/`frame = 3` del editor; limpiar antes del commit.
+- **Verificación o evidencia:** `slime.gd`, `slime.tscn`, `player.gd`, `level_01.gd` y los diffs de las escenas revisados. Probé en F6 en `level_01.tscn`: la muerte, la espera y el reinicio funcionan. Confirmado por mí.
 
 *(Las secciones por tarea se añaden aquí conforme se trabajan.)*
