@@ -21,7 +21,7 @@
 | C01 | Medir el alcance del salto | M2 | Completado |
 | D02 | Layout del nivel principal (delegada) | M2 | Completado |
 | T11 | Moneda animada | M3 | Completado |
-| T12 | HUD de puntaje | M3 | No iniciado |
+| T12 | HUD de puntaje | M3 | Completado |
 | T13 | Escena Slime | M4 | No iniciado |
 | T14 | Patrulla con RayCast2D | M4 | No iniciado |
 | T15 | Muerte y reinicio con Timer | M4 | No iniciado |
@@ -190,5 +190,15 @@ Plantilla (se copia a cada tarea cuando se empieza):
 - **Dificultades:** ninguna relevante. Mis predicciones: con `world` en la mask "sigue igual" (casi: el grupo descarta el suelo) y sin `emit` nadie se entera (correcto).
 - **Dudas pendientes o conceptos por reforzar:** quitar el `print` de depuración cuando el HUD (T12) conecte `collected`. El radio 4.12 podría redondearse.
 - **Verificación o evidencia:** `coin.tscn`, `coin.gd` y `player.tscn` revisados (layers, 12 regiones, señal y conexión). Probé en F6 en `test_room.tscn`: la moneda gira, desaparece una sola vez al tocarla y no se recoge si no la toco. Confirmado por mí.
+
+### T12 — HUD de puntaje
+- **Estado:** Completado
+- **Fechas:** 2026-10-16 / 2026-10-16
+- **Qué aprendí:** un `CanvasLayer` se dibuja en coordenadas de pantalla, así que el HUD no se mueve con la cámara. `LabelSettings` guarda fuente y tamaño de un `Label` y se puede reutilizar. "Call down, signal up": el nivel escucha `collected` de cada moneda (hacia arriba) y llama a `hud.update_label()` (hacia abajo); el nivel guarda el estado y el HUD solo lo muestra. Para pixel art la fuente debe usar un tamaño múltiplo de su tamaño base (8 o 16 en `PixelOperator8`) y desactivar el antialiasing en la pestaña *Import* (con *Reimport*), no en el `Label`.
+- **Qué implementé por mi cuenta:** `scenes/hud.tscn` (`CanvasLayer` + `Label` con `LabelSettings` y `PixelOperator8`, tamaño 8), `scripts/hud.gd` (`update_label(qty)`), `scripts/level_01.gd` (contador, conexión de las monedas del grupo `coins`), 9 monedas colocadas por mí en `level_01.tscn`, el grupo `coins` en `coin.tscn` y el antialiasing de la fuente desactivado.
+- **Trabajo delegado:** ninguno.
+- **Dificultades:** no encontraba dónde quitar el antialiasing; está en el panel *Import* de la fuente. Mis predicciones: el label se queda atrás sin `CanvasLayer` (correcto) y el contador vive en el nivel porque coordina (correcto).
+- **Dudas pendientes o conceptos por reforzar:** tipar mejor `hud` y `coin.collected` (por ejemplo con `class_name`) si luego se quiere más seguridad; renombrar `collected_coins` a `score` es cuestión de gusto.
+- **Verificación o evidencia:** `hud.tscn`, `hud.gd`, `level_01.gd`, `coin.tscn` y `level_01.tscn` revisados (nueve monedas con grupo, cámara conservada). Probé en F6 en `level_01.tscn`: el HUD sube de 1 en 1, se queda fijo con la cámara y la fuente se ve nítida. Confirmado por mí.
 
 *(Las secciones por tarea se añaden aquí conforme se trabajan.)*
