@@ -25,7 +25,7 @@
 | T13 | Escena Slime | M4 | Completado |
 | T14 | Patrulla con RayCast2D | M4 | Completado |
 | T15 | Muerte y reinicio con Timer | M4 | Completado |
-| T16 | Kill zone | M4 | En progreso |
+| T16 | Kill zone | M4 | Completado |
 | T17 | Plataforma móvil | M5 | No iniciado |
 | T18 | Recorrido configurable | M5 | No iniciado |
 | D03 | Poblar el nivel (delegada) | M5 | No iniciado |
@@ -230,5 +230,15 @@ Plantilla (se copia a cada tarea cuando se empieza):
 - **Dificultades:** ninguna relevante. Mis predicciones (N llamadas sin bandera; sin espera no se ve la animación) fueron correctas.
 - **Dudas pendientes o conceptos por reforzar:** (1) revisar los frames de `die`: usan la fila HIT (y=192) y un frame de ROLL `(96,160)`; la fila DEATH está en y=224. (2) `set_physics_process(false)` deja al jugador flotando si muere en el aire; no reporté cómo se ve ni si quiero cambiarlo. (3) No respondí por qué el jugador no choca físicamente con el slime (un `Area2D` detecta sin bloquear). (4) Quedó guardado en `player.tscn` `animation = die`/`frame = 3` del editor; limpiar antes del commit.
 - **Verificación o evidencia:** `slime.gd`, `slime.tscn`, `player.gd`, `level_01.gd` y los diffs de las escenas revisados. Probé en F6 en `level_01.tscn`: la muerte, la espera y el reinicio funcionan. Confirmado por mí.
+
+### T16 — Kill zone
+- **Estado:** Completado
+- **Fechas:** 2026-10-17 / 2026-10-17
+- **Qué aprendí:** un `Area2D` ancho debajo del nivel sirve como zona de muerte. La kill zone solo avisa (`hit_player`) y reutiliza la ruta de muerte del nivel, sin duplicar lógica. No necesita estar en ninguna layer: un `Area2D` detecta con su mask, y no hace falta que el jugador la detecte a ella.
+- **Qué implementé por mi cuenta:** `scenes/kill_zone.tscn` (`Area2D`, mask `player`, forma 1515x20), `scripts/kill_zone.gd` con la señal `hit_player` y el filtro por grupo `player`, una instancia en `level_01.tscn` y su conexión a `_on_die_player` en `level_01.gd`.
+- **Trabajo delegado:** ninguno.
+- **Dificultades:** ninguna relevante. Mi respuesta de repaso (la zona solo necesita detectar al jugador con su mask) fue correcta.
+- **Dudas pendientes o conceptos por reforzar:** pendiente limpiar el cambio del editor en `player.tscn` (`animation`/`frame`) antes del commit.
+- **Verificación o evidencia:** `kill_zone.gd`, `kill_zone.tscn`, `level_01.gd` y `level_01.tscn` revisados. Probé en F6: al caer por ambos bordes hay animación `die`, pausa de ~1 s y reinicio una sola vez, sin errores. Confirmado por mí.
 
 *(Las secciones por tarea se añaden aquí conforme se trabajan.)*
