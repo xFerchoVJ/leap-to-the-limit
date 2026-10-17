@@ -19,7 +19,7 @@
 | T09 | Camera2D | M1 | Completado |
 | T10 | Plataformas one-way | M2 | Completado |
 | C01 | Medir el alcance del salto | M2 | Completado |
-| D02 | Layout del nivel principal (delegada) | M2 | No iniciado |
+| D02 | Layout del nivel principal (delegada) | M2 | Completado |
 | T11 | Moneda animada | M3 | No iniciado |
 | T12 | HUD de puntaje | M3 | No iniciado |
 | T13 | Escena Slime | M4 | No iniciado |
@@ -171,5 +171,14 @@ Plantilla (se copia a cada tarea cuando se empieza):
 - **Dudas pendientes o conceptos por reforzar:** si cambia `jump_velocity` hay que remedir. El salto corto de T07 no se midió.
 - **Verificación o evidencia:** probé en F6 con `jump_test.tscn`: escalones 1 y 2 sí, 3 no; huecos de 2 y 3 sí (el de 3 apenas), el de 4 no. Confirmado por mí.
 
+### D02 — Layout del nivel principal (delegada)
+- **Estado:** Completado
+- **Fechas:** 2026-10-16 / 2026-10-16
+- **Qué aprendí:** separar la decoración en un `TileMapLayer` aparte (`Decor`, sin colisión, detrás de `Terrain`) permite editar los adornos sin tocar la colisión. Los límites de cámara por instancia se guardan con `Editable Children` (`[editable path="Player"]`). Un nivel con 12 filas (192 px) evita el vacío que se veía con 11 (176 < 180).
+- **Qué implementé por mi cuenta:** nada; es contenido delegado. Yo aprobé la propuesta (80×12, jugador incluido, decoración con los tiles de arbolitos).
+- **Trabajo delegado:** `scenes/level_01.tscn` (nuevo): 80×12 tiles (1280×192 px), `TileSet` copiado sin cambios, capas `Decor` y `Terrain`, jugador instanciado y `Camera2D` con `limit_right = 1280` y `limit_bottom = 192`. Cinco zonas (calentamiento, huecos, plataformas one-way, descenso y tramo final), muros de borde en las columnas 0 y 79 y 28 tiles de decoración. Sin monedas ni enemigos.
+- **Dificultades:** ninguna; apliqué lo aprendido en `jump_test.tscn` (el override de la cámara con `[editable path="Player"]`).
+- **Dudas pendientes o conceptos por reforzar:** las medidas de C01 (escalones de 1 tile, huecos de 2) se respetan, pero la comodidad de cada salto es subjetiva y se ajustará al jugar. La meta y la plataforma móvil llegan en D03/T17/T19.
+- **Verificación o evidencia:** se decodificó `tile_map_data`: ningún escalón supera 1 tile, ningún hueco pasa de 2, los tiles de `Decor` existen en el `TileSet`, no tienen colisión y no solapan el terreno. Probé en F5/F6 y se ve y se juega bien. Confirmado por mí.
 
 *(Las secciones por tarea se añaden aquí conforme se trabajan.)*
