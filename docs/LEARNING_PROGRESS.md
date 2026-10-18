@@ -26,7 +26,7 @@
 | T14 | Patrulla con RayCast2D | M4 | Completado |
 | T15 | Muerte y reinicio con Timer | M4 | Completado |
 | T16 | Kill zone | M4 | Completado |
-| T17 | Plataforma móvil | M5 | No iniciado |
+| T17 | Plataforma móvil | M5 | Completado |
 | T18 | Recorrido configurable | M5 | No iniciado |
 | D03 | Poblar el nivel (delegada) | M5 | No iniciado |
 | T19 | Meta y victoria | M6 | No iniciado |
@@ -240,5 +240,15 @@ Plantilla (se copia a cada tarea cuando se empieza):
 - **Dificultades:** ninguna relevante. Mi respuesta de repaso (la zona solo necesita detectar al jugador con su mask) fue correcta.
 - **Dudas pendientes o conceptos por reforzar:** pendiente limpiar el cambio del editor en `player.tscn` (`animation`/`frame`) antes del commit.
 - **Verificación o evidencia:** `kill_zone.gd`, `kill_zone.tscn`, `level_01.gd` y `level_01.tscn` revisados. Probé en F6: al caer por ambos bordes hay animación `die`, pausa de ~1 s y reinicio una sola vez, sin errores. Confirmado por mí.
+
+### T17 — Plataforma móvil
+- **Estado:** Completado
+- **Fechas:** 2026-10-17 / 2026-10-17
+- **Qué aprendí:** un `AnimatableBody2D` se mueve y arrastra lo que lo pisa; un `StaticBody2D` movido a mano no. Una pista de `position` en el nodo que también colocas en el nivel sobrescribe su posición (valores absolutos), así que se separa un ancla `Node2D` (se coloca) del `AnimatableBody2D` (se anima, relativo al padre). `sync_to_physics` aplica el movimiento dentro del paso de física, para que el motor conozca la velocidad de la plataforma y `move_and_slide()` arrastre al jugador.
+- **Qué implementé por mi cuenta:** `scenes/moving_platform.tscn` (`Node2D` > `AnimatableBody2D` con `Sprite2D` y colisión one-way de 18x3, más `AnimationPlayer` con la animación `move` en bucle y autoplay), y una instancia en `test_room.tscn`.
+- **Trabajo delegado:** ninguno.
+- **Dificultades:** la instancia aparecía en `(0, 0)` porque la animación pisaba `position`; lo diagnostiqué y lo resolví reestructurando los nodos.
+- **Dudas pendientes o conceptos por reforzar:** no supe responder por qué mover un `AnimatableBody2D` en `_process` falla (frame de dibujo vs. paso de física); se explicó, pendiente de reforzar. El `Sprite2D` (`hframes = 4`, `vframes = 6`) se ve bien; revisado por mí. Recorrido de 20 px en 8 s: se ajusta en T18.
+- **Verificación o evidencia:** `moving_platform.tscn` y `test_room.tscn` revisados. Probé en F6 en `test_room.tscn`: subo desde abajo, viajo encima sin patinar y puedo bajar. Confirmado por mí.
 
 *(Las secciones por tarea se añaden aquí conforme se trabajan.)*
