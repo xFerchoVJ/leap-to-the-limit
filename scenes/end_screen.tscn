@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://ciks22ahibe5s"]
+
+[ext_resource type="Script" uid="uid://xlbvcy37w8sr" path="res://scripts/end_screen.gd" id="1_kq7ac"]
+
+[node name="EndScreen" type="CanvasLayer" unique_id=115068939]
+script = ExtResource("1_kq7ac")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=569232510]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=1739319826]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1817189757]
+layout_mode = 2
+text = "¡Ganaste!"
+
+[node name="Reset" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1946619411]
+layout_mode = 2
+text = "Reiniciar"
+
+[node name="BackMenu" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1472940739]
+layout_mode = 2
+text = "Volver al menú"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Reset" to="." method="_on_reset_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/BackMenu" to="." method="_on_back_menu_pressed"]

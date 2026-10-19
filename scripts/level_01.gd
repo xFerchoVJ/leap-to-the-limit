@@ -43,5 +43,4 @@ func _on_player_won() -> void:
 		return
 	
 	player_won = true
-	player.set_physics_process(false)
-	print("Gano el player")
+	get_tree().change_scene_to_file("res://scenes/end_screen.tscn")

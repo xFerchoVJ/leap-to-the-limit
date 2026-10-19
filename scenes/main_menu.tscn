@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://dh5yet6yt6luu"]
+
+[ext_resource type="Script" uid="uid://dty2ecr3vprkx" path="res://scripts/main_menu.gd" id="1_l6cm7"]
+
+[node name="MainMenu" type="CanvasLayer" unique_id=396001865]
+script = ExtResource("1_l6cm7")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1360164321]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=1240464]
+layout_mode = 2
+
+[node name="Play" type="Button" parent="CenterContainer/VBoxContainer" unique_id=579105765]
+layout_mode = 2
+text = "Jugar"
+
+[node name="Exit" type="Button" parent="CenterContainer/VBoxContainer" unique_id=82834149]
+layout_mode = 2
+text = "Salir"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
