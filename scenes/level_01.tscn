@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://mfjbt0f6hrdl" path="res://scenes/coin.tscn" id="5_j60wy"]
 [ext_resource type="PackedScene" uid="uid://c7655iv0matml" path="res://scenes/slime.tscn" id="6_qgxqk"]
 [ext_resource type="PackedScene" uid="uid://bu16cdguqnp7k" path="res://scenes/kill_zone.tscn" id="7_t0ybu"]
+[ext_resource type="PackedScene" uid="uid://cteg6074np8jv" path="res://scenes/moving_platform.tscn" id="8_mvplt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_j8ivh"]
 texture = ExtResource("1_im37l")
@@ -225,6 +226,28 @@ position = Vector2(1095, 119)
 
 [node name="Slime" parent="." unique_id=1855283021 instance=ExtResource("6_qgxqk")]
 position = Vector2(295, 131)
+
+[node name="Slime2" parent="." unique_id=1402883611 instance=ExtResource("6_qgxqk")]
+position = Vector2(520, 131)
+
+[node name="Slime3" parent="." unique_id=1402883612 instance=ExtResource("6_qgxqk")]
+position = Vector2(1180, 115)
+
+[node name="MovingPlatform" parent="." unique_id=1402883613 instance=ExtResource("8_mvplt")]
+position = Vector2(894, 149)
+distance = 48.0
+duration = 3.0
+
+[node name="MovingPlatform2" parent="." unique_id=1402883614 instance=ExtResource("8_mvplt")]
+position = Vector2(560, 112)
+distance = 48.0
+duration = 2.5
+
+[node name="Coin10" parent="." unique_id=1402883615 instance=ExtResource("5_j60wy")]
+position = Vector2(584, 92)
+
+[node name="Coin11" parent="." unique_id=1402883616 instance=ExtResource("5_j60wy")]
+position = Vector2(918, 124)
 
 [node name="KillZone" parent="." unique_id=1169247529 instance=ExtResource("7_t0ybu")]
 position = Vector2(11, 205)
