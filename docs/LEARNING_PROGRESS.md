@@ -32,7 +32,7 @@
 | T19 | Meta y victoria | M6 | Completado |
 | T20 | Pantalla de victoria y menú principal | M6 | Completado |
 | T21 | Efectos de sonido | M7 | Completado |
-| T22 | Música de fondo | M7 | No iniciado |
+| T22 | Música de fondo | M7 | Completado |
 | C02 | Revisión final | M7 | No iniciado |
 
 ## Detalle por tarea
@@ -300,5 +300,15 @@ Plantilla (se copia a cada tarea cuando se empieza):
 - **Dificultades:** mi predicción de que la moneda se recogía después del sonido fue incorrecta: con `play()` seguido de `queue_free()` no se oyó nada. Lo comprobé y lo resolví con la opción de esperar a `finished`.
 - **Dudas pendientes o conceptos por reforzar:** por qué `set_deferred` es necesario al cambiar `monitoring` dentro de una señal de física (Godot está procesando colisiones). Cada sonido tiene su propio reproductor; si se recogen monedas muy seguidas, cada moneda tiene el suyo y no se pisan, pero el volumen no está ajustado.
 - **Verificación o evidencia:** `player.gd`, `player.tscn`, `coin.gd` y `coin.tscn` revisados. Probé en F5: un sonido por salto, el golpe una vez al morir (slime y caída), la moneda suena completa, el HUD suma una por moneda y dos monedas seguidas suenan. Confirmado por mí.
+
+### T22 — Música de fondo
+- **Estado:** Completado
+- **Fechas:** 2026-10-19 / 2026-10-19
+- **Qué aprendí:** el loop de un audio es una propiedad del archivo importado (`loop=true` en la pestaña Import, con *Reimport*), no del `AudioStreamPlayer`. El volumen se ajusta con `Volume Db`, una escala logarítmica donde 0 dB es el original, -6 dB es aproximadamente la mitad y valores negativos bajan. Un reproductor que vive dentro de `level_01` se reinicia con `reload_current_scene()`. Existe la alternativa de un autoload para que la música no se reinicie, y los buses de audio para controlar el volumen por grupos.
+- **Qué implementé por mi cuenta:** el loop de `time_for_adventure.mp3` y un `AudioStreamPlayer` llamado `Music` en `level_01.tscn` con `autoplay` y `volume_db = -12`.
+- **Trabajo delegado:** ninguno.
+- **Dificultades:** ninguna; predije correctamente que la música se reinicia al morir.
+- **Dudas pendientes o conceptos por reforzar:** la música se reinicia al morir y no suena en el menú ni en la pantalla de victoria; es una decisión aceptada para el MVP. Si se quisiera continua, haría falta un autoload (aprendizaje para el siguiente proyecto).
+- **Verificación o evidencia:** `time_for_adventure.mp3.import` y `level_01.tscn` revisados. Probé en F5: la música se repite sin cortes, los efectos se oyen por encima y al reiniciar no se superpone. Confirmado por mí.
 
 *(Las secciones por tarea se añaden aquí conforme se trabajan.)*
