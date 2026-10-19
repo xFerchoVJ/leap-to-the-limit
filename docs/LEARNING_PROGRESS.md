@@ -31,7 +31,7 @@
 | D03 | Poblar el nivel (delegada) | M5 | Completado |
 | T19 | Meta y victoria | M6 | Completado |
 | T20 | Pantalla de victoria y menú principal | M6 | Completado |
-| T21 | Efectos de sonido | M7 | No iniciado |
+| T21 | Efectos de sonido | M7 | Completado |
 | T22 | Música de fondo | M7 | No iniciado |
 | C02 | Revisión final | M7 | No iniciado |
 
@@ -290,5 +290,15 @@ Plantilla (se copia a cada tarea cuando se empieza):
 - **Dificultades:** ninguna relevante; quedaron saltos de línea en los textos de los botones y variables `@onready` sin usar, que se corrigieron tras la revisión.
 - **Dudas pendientes o conceptos por reforzar:** `set_physics_process(false)` en `_on_player_won` ya no tiene efecto visible porque la escena cambia enseguida. Menús sin la fuente `PixelOperator8` ni foco de teclado; opcional.
 - **Verificación o evidencia:** escenas, scripts y `project.godot` revisados. Probé en F5 el flujo menú → nivel → victoria → reiniciar → victoria → menú → salir, sin errores. Confirmado por mí.
+
+### T21 — Efectos de sonido
+- **Estado:** Completado
+- **Fechas:** 2026-10-19 / 2026-10-19
+- **Qué aprendí:** un `AudioStreamPlayer` reproduce un `AudioStream` con `play()` sin depender de la posición; `AudioStreamPlayer2D` lo posiciona en el espacio. Poner `play()` dentro del `if` del evento evita que se reinicie en cada frame de `_physics_process`. Un sonido dentro de un nodo con `queue_free()` se corta, porque el nodo se borra al final del frame; la solución fue ocultar la moneda, apagar su detección con `set_deferred("monitoring", false)` y borrarla en la señal `finished` del reproductor. `hurt.wav` dura ~0.17 s y la espera de 1 s antes de reiniciar lo deja terminar.
+- **Qué implementé por mi cuenta:** `JumpSound` y `DeathSound` en `player.tscn` con sus `play()` en el salto y en `die()`, y `CoinSound` en `coin.tscn` con la lógica de `coin.gd` (ocultar, desactivar detección, `play()` y `queue_free()` en `finished`).
+- **Trabajo delegado:** ninguno.
+- **Dificultades:** mi predicción de que la moneda se recogía después del sonido fue incorrecta: con `play()` seguido de `queue_free()` no se oyó nada. Lo comprobé y lo resolví con la opción de esperar a `finished`.
+- **Dudas pendientes o conceptos por reforzar:** por qué `set_deferred` es necesario al cambiar `monitoring` dentro de una señal de física (Godot está procesando colisiones). Cada sonido tiene su propio reproductor; si se recogen monedas muy seguidas, cada moneda tiene el suyo y no se pisan, pero el volumen no está ajustado.
+- **Verificación o evidencia:** `player.gd`, `player.tscn`, `coin.gd` y `coin.tscn` revisados. Probé en F5: un sonido por salto, el golpe una vez al morir (slime y caída), la moneda suena completa, el HUD suma una por moneda y dos monedas seguidas suenan. Confirmado por mí.
 
 *(Las secciones por tarea se añaden aquí conforme se trabajan.)*
