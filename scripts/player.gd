@@ -4,6 +4,8 @@ extends CharacterBody2D
 @export var jump_velocity: float = -250
 @export var jump_cut_factor: float = 0.5
 
+@onready var jump_sound: AudioStreamPlayer = $JumpSound
+@onready var death_sound: AudioStreamPlayer = $DeathSound
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 
 var is_dead: bool = false
@@ -24,6 +26,7 @@ func _physics_process(delta: float) -> void:
 
 	# Aplicar salto
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
+		jump_sound.play()
 		velocity.y = jump_velocity 
 		
 	# Recortar el salto al soltar la tecla
@@ -64,5 +67,6 @@ func die() -> void:
 	if is_dead:
 		return
 	is_dead = true
+	death_sound.play()
 	set_physics_process(false)
 	animated_sprite_2d.play("die")
