@@ -27,7 +27,7 @@
 | T15 | Muerte y reinicio con Timer | M4 | Completado |
 | T16 | Kill zone | M4 | Completado |
 | T17 | Plataforma móvil | M5 | Completado |
-| T18 | Recorrido configurable | M5 | No iniciado |
+| T18 | Recorrido configurable | M5 | Completado |
 | D03 | Poblar el nivel (delegada) | M5 | No iniciado |
 | T19 | Meta y victoria | M6 | No iniciado |
 | T20 | Pantalla de victoria y menú principal | M6 | No iniciado |
@@ -250,5 +250,15 @@ Plantilla (se copia a cada tarea cuando se empieza):
 - **Dificultades:** la instancia aparecía en `(0, 0)` porque la animación pisaba `position`; lo diagnostiqué y lo resolví reestructurando los nodos.
 - **Dudas pendientes o conceptos por reforzar:** no supe responder por qué mover un `AnimatableBody2D` en `_process` falla (frame de dibujo vs. paso de física); se explicó, pendiente de reforzar. El `Sprite2D` (`hframes = 4`, `vframes = 6`) se ve bien; revisado por mí. Recorrido de 20 px en 8 s: se ajusta en T18.
 - **Verificación o evidencia:** `moving_platform.tscn` y `test_room.tscn` revisados. Probé en F6 en `test_room.tscn`: subo desde abajo, viajo encima sin patinar y puedo bajar. Confirmado por mí.
+
+### T18 — Recorrido configurable
+- **Estado:** Completado
+- **Fechas:** 2026-10-18 / 2026-10-18
+- **Qué aprendí:** un `Tween` anima una propiedad de forma gradual desde código y se destruye al terminar, salvo que se use `set_loops()`. Los pasos de un Tween se ejecutan en orden (ida y vuelta con dos `tween_property`). `TWEEN_PROCESS_PHYSICS` hace que se actualice en el paso de física, como `sync_to_physics` con el `AnimationPlayer`. `set_trans` y `set_ease` suavizan los extremos. `@export` permite un recorrido distinto por instancia sin tocar el script.
+- **Qué implementé por mi cuenta:** `scripts/moving_platform.gd` con `distance` y `duration` exportadas, Tween en bucle con `TRANS_SINE`/`EASE_IN_OUT`, y el cambio de `moving_platform.tscn` (sin `AnimationPlayer`). Dos instancias en `test_room.tscn`.
+- **Trabajo delegado:** ninguno.
+- **Dificultades:** el avance inicial tenía el destino fijo (`Vector2(400, 300)`), un solo viaje y `distance` sin usar; se corrigió con una guía y ajusté el código.
+- **Dudas pendientes o conceptos por reforzar:** la predicción sobre quitar `TWEEN_PROCESS_PHYSICS` queda por comprobar. El recorrido solo es horizontal; uno vertical requeriría una dirección exportada.
+- **Verificación o evidencia:** `moving_platform.gd` y `test_room.tscn` revisados. Probé en F6 con dos instancias (60 px / 2 s y 20 px / 5 s) con recorridos distintos. Confirmado por mí.
 
 *(Las secciones por tarea se añaden aquí conforme se trabajan.)*
