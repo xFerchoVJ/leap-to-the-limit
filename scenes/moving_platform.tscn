@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dordhw5ciic7c" path="res://assets/sprites/platforms.png" id="1_ms375"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dtglo"]
-size = Vector2(18, 3)
+size = Vector2(16, 3)
 
 [node name="MovingPlatform" type="Node2D" unique_id=509794221]
 script = ExtResource("1_1tdcd")
