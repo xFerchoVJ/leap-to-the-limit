@@ -65,14 +65,14 @@ Las tareas D solo pintan tiles o colocan instancias de escenas que tú ya creast
 Las tareas de aprendizaje suman unas 14 h; con depuración y revisión, entre 18 y 22 h. Si una semana se atrasa, el margen de la semana 4 lo absorbe. Si hace falta recortar, se sacan primero T22 (música) y T18.
 
 ## Definición de terminado (DoD)
-- [ ] El jugador corre, salta con altura variable y se anima según su estado.
-- [ ] El nivel se puede completar usando plataformas one-way y móviles.
-- [ ] Las monedas se recogen y el HUD muestra el puntaje.
-- [ ] Los slimes patrullan y no se caen de los bordes.
-- [ ] Tocar un slime o caer al vacío mata al jugador y reinicia el nivel.
-- [ ] Llegar a la meta muestra la pantalla de victoria, con opción de reiniciar o volver al menú.
-- [ ] Hay menú principal, efectos de sonido y música.
-- [ ] La consola de Godot no muestra errores al jugar de principio a fin desde el menú.
+- [x] El jugador corre, salta con altura variable y se anima según su estado.
+- [x] El nivel se puede completar usando plataformas one-way y móviles.
+- [x] Las monedas se recogen y el HUD muestra el puntaje.
+- [x] Los slimes patrullan y no se caen de los bordes.
+- [x] Tocar un slime o caer al vacío mata al jugador y reinicia el nivel.
+- [x] Llegar a la meta muestra la pantalla de victoria, con opción de reiniciar o volver al menú.
+- [x] Hay menú principal, efectos de sonido y música.
+- [x] La consola de Godot no muestra errores al jugar de principio a fin desde el menú.
 - [ ] El código usa GDScript tipado y `LEARNING_PROGRESS.md` está al día.
 - [ ] Puedo explicar con mis palabras: la gravedad con `delta` e `is_on_floor()`, la diferencia entre one-way y `AnimatableBody2D`, y qué hace un `RayCast2D`.
 

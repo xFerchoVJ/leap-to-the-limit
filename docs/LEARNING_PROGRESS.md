@@ -33,7 +33,7 @@
 | T20 | Pantalla de victoria y menú principal | M6 | Completado |
 | T21 | Efectos de sonido | M7 | Completado |
 | T22 | Música de fondo | M7 | Completado |
-| C02 | Revisión final | M7 | No iniciado |
+| C02 | Revisión final | M7 | Completado |
 
 ## Detalle por tarea
 Plantilla (se copia a cada tarea cuando se empieza):
@@ -310,5 +310,19 @@ Plantilla (se copia a cada tarea cuando se empieza):
 - **Dificultades:** ninguna; predije correctamente que la música se reinicia al morir.
 - **Dudas pendientes o conceptos por reforzar:** la música se reinicia al morir y no suena en el menú ni en la pantalla de victoria; es una decisión aceptada para el MVP. Si se quisiera continua, haría falta un autoload (aprendizaje para el siguiente proyecto).
 - **Verificación o evidencia:** `time_for_adventure.mp3.import` y `level_01.tscn` revisados. Probé en F5: la música se repite sin cortes, los efectos se oyen por encima y al reiniciar no se superpone. Confirmado por mí.
+
+### C02 — Revisión final
+- **Estado:** Completado
+- **Fechas:** 2026-10-19 / 2026-10-19
+- **Qué aprendí:** una DoD se verifica punto por punto y no basta con que el juego corra; hay puntos que se comprueban en el código (tipado) y otros jugando (consola sin errores).
+- **Qué implementé por mi cuenta:** nada nuevo; revisión y cierre del MVP.
+- **Trabajo delegado:** ninguno.
+- **Dificultades:** ninguna.
+- **Dudas pendientes o conceptos por reforzar:**
+  - Tipado: `flip_player(direction)` y `apply_animations(velocity)` en `player.gd` siguen sin tipos (y `velocity` sombrea la propiedad del nodo). Los `for` de `level_01.gd` van sin tipo. Decidí no cambiarlos por ser mínimos.
+  - Explicar con mis palabras la gravedad con `delta` e `is_on_floor()`, one-way vs. `AnimatableBody2D`, y qué hace un `RayCast2D`: no lo respondí por escrito; queda pendiente de reforzar.
+  - De tareas anteriores: por qué mover un `AnimatableBody2D` en `_process` falla; por qué `set_deferred` al cambiar `monitoring` en una señal de física; `stretch/mode` y `aspect`.
+  - Para el siguiente proyecto: autoload (música continua, puntaje entre niveles), coyote time y jump buffer, buses de audio.
+- **Verificación o evidencia:** DoD revisada punto por punto contra `DEVELOPMENT_PLAN.md`. Puntos 1–8 jugados y confirmados por mí, incluida la consola sin errores de principio a fin desde el menú. Puntos 9 y 10 quedan abiertos por lo anterior.
 
 *(Las secciones por tarea se añaden aquí conforme se trabajan.)*
