@@ -29,7 +29,7 @@
 | T17 | Plataforma móvil | M5 | Completado |
 | T18 | Recorrido configurable | M5 | Completado |
 | D03 | Poblar el nivel (delegada) | M5 | Completado |
-| T19 | Meta y victoria | M6 | No iniciado |
+| T19 | Meta y victoria | M6 | Completado |
 | T20 | Pantalla de victoria y menú principal | M6 | No iniciado |
 | T21 | Efectos de sonido | M7 | No iniciado |
 | T22 | Música de fondo | M7 | No iniciado |
@@ -270,5 +270,15 @@ Plantilla (se copia a cada tarea cuando se empieza):
 - **Dificultades:** ninguna.
 - **Dudas pendientes o conceptos por reforzar:** la meta no existe todavía (T19). Las posiciones se pueden ajustar al gusto en el inspector.
 - **Verificación o evidencia:** se decodificó `Terrain` para ubicar suelo y huecos; sin `unique_id` duplicados. Probé en F6: ambas plataformas se pueden usar, `Coin10` es alcanzable, los slimes patrullan sin caerse y el HUD cuenta bien. Confirmado por mí.
+
+### T19 — Meta y victoria
+- **Estado:** Completado
+- **Fechas:** 2026-10-18 / 2026-10-18
+- **Qué aprendí:** un `Area2D` solo detecta cuerpos cuya capa esté en su `collision_mask`; con la mask por defecto (capa 1, `world`) nunca veía al jugador (capa 2) y `body_entered` no se disparaba. Una zona que solo detecta puede tener `collision_layer = 0`. La meta solo avisa con `player_entered` y el nivel decide si cuenta como victoria. Dos banderas (`player_won` e `is_dead`) bloquean el segundo evento cuando ganar y morir coinciden: gana quien llega primero.
+- **Qué implementé por mi cuenta:** `scenes/goal.tscn` y `scripts/goal.gd` (`Area2D` con la señal `player_entered`), la conexión y `_on_player_won` en `scripts/level_01.gd`, la guarda `player_won` en `_on_die_player`, y la instancia `Goal` en `level_01.tscn`.
+- **Trabajo delegado:** ninguno.
+- **Dificultades:** `body_entered` no se emitía; lo resolví al comparar la mask con la de `KillZone` y ponerla en 2.
+- **Dudas pendientes o conceptos por reforzar:** `set_physics_process(false)` deja al jugador congelado en el aire si gana saltando; decidir en T20 qué animación mostrar. Por ahora la victoria solo imprime un mensaje en consola.
+- **Verificación o evidencia:** `goal.tscn`, `goal.gd` y `level_01.gd` revisados. Probé en F6: al tocar la meta sale `Gano el player` una sola vez y el jugador se detiene; si muere antes, ya no gana. Confirmado por mí.
 
 *(Las secciones por tarea se añaden aquí conforme se trabajan.)*
