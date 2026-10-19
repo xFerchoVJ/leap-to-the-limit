@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bu16cdguqnp7k" path="res://scenes/kill_zone.tscn" id="7_t0ybu"]
 [ext_resource type="PackedScene" uid="uid://cteg6074np8jv" path="res://scenes/moving_platform.tscn" id="8_mvplt"]
 [ext_resource type="PackedScene" uid="uid://djg00ecrtg6uk" path="res://scenes/goal.tscn" id="9_llcge"]
+[ext_resource type="AudioStream" uid="uid://dx1mtypd5cgsn" path="res://assets/music/time_for_adventure.mp3" id="10_lwi15"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_j8ivh"]
 texture = ExtResource("1_im37l")
@@ -255,5 +256,10 @@ position = Vector2(11, 205)
 
 [node name="Goal" parent="." unique_id=1403483580 instance=ExtResource("9_llcge")]
 position = Vector2(1240, 121)
+
+[node name="Music" type="AudioStreamPlayer" parent="." unique_id=558902360]
+stream = ExtResource("10_lwi15")
+volume_db = -12.0
+autoplay = true
 
 [editable path="Player"]
