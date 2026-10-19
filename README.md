@@ -7,7 +7,7 @@
 ![Godot](https://img.shields.io/badge/Godot-4.7-478CBF?logo=godotengine&logoColor=white)
 ![GDScript](https://img.shields.io/badge/GDScript-tipado-355570)
 ![Renderer](https://img.shields.io/badge/Renderer-GL%20Compatibility-5C5C5C)
-![Estado](https://img.shields.io/badge/Estado-en%20desarrollo-F5A623)
+![Estado](https://img.shields.io/badge/Estado-MVP%20terminado-4CAF50)
 
 </div>
 
@@ -29,15 +29,19 @@ Lo construyo en tareas pequeñas y ordenadas, con la guía de un mentor técnico
 
 ## 🚧 Estado actual
 
-El proyecto está en la fase **M1 · Jugador plataformero**. Ya funciona:
+El **MVP está terminado**: el juego se puede jugar de principio a fin, desde el menú hasta la pantalla de victoria. Incluye:
 
-- 🏃 Movimiento horizontal con `Input.get_axis`.
-- ⬆️ Gravedad y salto, que solo se puede hacer desde el suelo.
-- 🪂 Salto variable: un toque corto da un salto bajo y mantener la tecla da uno alto.
-- 🎞️ Animaciones `idle`, `run`, `jump` y `fall`, con el sprite mirando hacia donde corre.
-- 🧪 Un cuarto de pruebas (`scenes/test_room.tscn`) con escalones, un hueco y una pared.
+- 🏃 Jugador con movimiento horizontal, gravedad, salto variable y animaciones `idle`, `run`, `jump` y `fall`.
+- 🎥 `Camera2D` con suavizado y límites del nivel.
+- 🧱 Un nivel (`level_01`) de 80×12 tiles con plataformas one-way y dos plataformas móviles (`AnimatableBody2D` con `Tween`, recorrido configurable desde el inspector).
+- 🪙 Monedas animadas con HUD de puntaje en fuente pixel.
+- 🟢 Slimes que patrullan con `RayCast2D` y no se caen de los bordes.
+- 💀 Muerte al tocar un slime o caer al vacío, con pausa y reinicio del nivel.
+- 🏁 Meta que registra la victoria una sola vez y abre la pantalla de victoria (reiniciar o volver al menú).
+- 🏠 Menú principal con Jugar y Salir.
+- 🔊 Efectos de sonido (salto, moneda y golpe) y música de fondo en bucle.
 
-Siguen la cámara, las plataformas one-way, el nivel, las monedas, los slimes, la meta y el audio. El roadmap completo está en [`docs/DEVELOPMENT_PLAN.md`](docs/DEVELOPMENT_PLAN.md).
+Quedó fuera del MVP, por decisión: vidas, checkpoints, varios niveles, pisar enemigos y autoload. El roadmap y la definición de terminado están en [`docs/DEVELOPMENT_PLAN.md`](docs/DEVELOPMENT_PLAN.md).
 
 ## 🕹️ Controles
 
@@ -55,16 +59,16 @@ Siguen la cámara, las plataformas one-way, el nivel, las monedas, los slimes, l
    git clone git@github.com:xFerchoVJ/leap-to-the-limit.git
    ```
 3. Abre Godot, pulsa **Importar** y selecciona el archivo `project.godot`.
-4. Abre `scenes/test_room.tscn` y pulsa **F6** para probar la escena actual.
+4. Pulsa **F5** para ejecutar el juego desde el menú principal. Con **F6** puedes probar la escena que tengas abierta, por ejemplo `scenes/level_01.tscn` o el cuarto de pruebas `scenes/test_room.tscn`.
 
 ## 🗂️ Estructura del proyecto
 
 ```
 leap-to-the-limit/
 ├── assets/     # Sprites, sonidos, música y fuentes (CC0)
-├── scenes/     # Player y cuarto de pruebas (por ahora)
+├── scenes/     # Menú, nivel, jugador, slime, moneda, meta, plataforma móvil, HUD y pantallas
 ├── scripts/    # Un script GDScript tipado por escena
-├── ui/         # Recursos de interfaz
+├── ui/         # Reservada para recursos de interfaz (vacía por ahora)
 ├── docs/       # Plan de desarrollo, backlog y progreso de aprendizaje
 └── project.godot
 ```
