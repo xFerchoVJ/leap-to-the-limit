@@ -28,7 +28,7 @@
 | T16 | Kill zone | M4 | Completado |
 | T17 | Plataforma móvil | M5 | Completado |
 | T18 | Recorrido configurable | M5 | Completado |
-| D03 | Poblar el nivel (delegada) | M5 | No iniciado |
+| D03 | Poblar el nivel (delegada) | M5 | Completado |
 | T19 | Meta y victoria | M6 | No iniciado |
 | T20 | Pantalla de victoria y menú principal | M6 | No iniciado |
 | T21 | Efectos de sonido | M7 | No iniciado |
@@ -260,5 +260,15 @@ Plantilla (se copia a cada tarea cuando se empieza):
 - **Dificultades:** el avance inicial tenía el destino fijo (`Vector2(400, 300)`), un solo viaje y `distance` sin usar; se corrigió con una guía y ajusté el código.
 - **Dudas pendientes o conceptos por reforzar:** la predicción sobre quitar `TWEEN_PROCESS_PHYSICS` queda por comprobar. El recorrido solo es horizontal; uno vertical requeriría una dirección exportada.
 - **Verificación o evidencia:** `moving_platform.gd` y `test_room.tscn` revisados. Probé en F6 con dos instancias (60 px / 2 s y 20 px / 5 s) con recorridos distintos. Confirmado por mí.
+
+### D03 — Poblar el nivel (delegada)
+- **Estado:** Completado
+- **Fechas:** 2026-10-18 / 2026-10-18
+- **Qué aprendí:** `level_01.gd` conecta monedas y enemigos por grupo (`coins`, `enemies`), así que las instancias nuevas funcionan sin tocar el script. La posición de una `MovingPlatform` es su punto inicial y se mueve hacia la derecha `distance` px. El alcance del salto (~32 px con `jump_velocity = -250`) limita a qué altura se puede colocar una plataforma (usando ~80% como margen, ~25 px).
+- **Qué implementé por mi cuenta:** nada; es contenido delegado. Yo aprobé el plan completo.
+- **Trabajo delegado:** solo `scenes/level_01.tscn`: 2 instancias de `moving_platform.tscn` (sobre el hueco de los tiles 56–57, y una ruta alta con 48 px / 2.5 s hacia `Coin10`), `Slime2` y `Slime3` en suelo plano, y `Coin10` y `Coin11`. Sin cambios en scripts, escenas de objetos ni `project.godot`.
+- **Dificultades:** ninguna.
+- **Dudas pendientes o conceptos por reforzar:** la meta no existe todavía (T19). Las posiciones se pueden ajustar al gusto en el inspector.
+- **Verificación o evidencia:** se decodificó `Terrain` para ubicar suelo y huecos; sin `unique_id` duplicados. Probé en F6: ambas plataformas se pueden usar, `Coin10` es alcanzable, los slimes patrullan sin caerse y el HUD cuenta bien. Confirmado por mí.
 
 *(Las secciones por tarea se añaden aquí conforme se trabajan.)*
