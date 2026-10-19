@@ -30,7 +30,7 @@
 | T18 | Recorrido configurable | M5 | Completado |
 | D03 | Poblar el nivel (delegada) | M5 | Completado |
 | T19 | Meta y victoria | M6 | Completado |
-| T20 | Pantalla de victoria y menú principal | M6 | No iniciado |
+| T20 | Pantalla de victoria y menú principal | M6 | Completado |
 | T21 | Efectos de sonido | M7 | No iniciado |
 | T22 | Música de fondo | M7 | No iniciado |
 | C02 | Revisión final | M7 | No iniciado |
@@ -280,5 +280,15 @@ Plantilla (se copia a cada tarea cuando se empieza):
 - **Dificultades:** `body_entered` no se emitía; lo resolví al comparar la mask con la de `KillZone` y ponerla en 2.
 - **Dudas pendientes o conceptos por reforzar:** `set_physics_process(false)` deja al jugador congelado en el aire si gana saltando; decidir en T20 qué animación mostrar. Por ahora la victoria solo imprime un mensaje en consola.
 - **Verificación o evidencia:** `goal.tscn`, `goal.gd` y `level_01.gd` revisados. Probé en F6: al tocar la meta sale `Gano el player` una sola vez y el jugador se detiene; si muere antes, ya no gana. Confirmado por mí.
+
+### T20 — Pantalla de victoria y menú principal
+- **Estado:** Completado
+- **Fechas:** 2026-10-18 / 2026-10-19
+- **Qué aprendí:** una pantalla de UI se arma con un `CanvasLayer` y un `CenterContainer` a pantalla completa (`Full Rect`) que centra un `VBoxContainer` con los botones. `change_scene_to_file()` carga otra escena; `reload_current_scene()` recarga la actual, por eso "Reiniciar" desde la pantalla de victoria usa `change_scene_to_file` hacia el nivel. La escena principal se fija en `run/main_scene`. Las señales `pressed` pueden conectarse desde el editor, sin variables `@onready`. Un `Enter` al escribir el texto de un `Button` mete un `\n` en el `text`.
+- **Qué implementé por mi cuenta:** `scenes/main_menu.tscn` y `scripts/main_menu.gd` (Jugar y Salir), `scenes/end_screen.tscn` y `scripts/end_screen.gd` (Reiniciar y Volver al menú), el menú como escena principal en `project.godot`, y el cambio a `end_screen.tscn` en `_on_player_won` de `level_01.gd`.
+- **Trabajo delegado:** quité los saltos de línea sobrantes en el `text` de los botones (a petición mía).
+- **Dificultades:** ninguna relevante; quedaron saltos de línea en los textos de los botones y variables `@onready` sin usar, que se corrigieron tras la revisión.
+- **Dudas pendientes o conceptos por reforzar:** `set_physics_process(false)` en `_on_player_won` ya no tiene efecto visible porque la escena cambia enseguida. Menús sin la fuente `PixelOperator8` ni foco de teclado; opcional.
+- **Verificación o evidencia:** escenas, scripts y `project.godot` revisados. Probé en F5 el flujo menú → nivel → victoria → reiniciar → victoria → menú → salir, sin errores. Confirmado por mí.
 
 *(Las secciones por tarea se añaden aquí conforme se trabajan.)*
