@@ -3,10 +3,12 @@ extends Node2D
 @onready var hud: CanvasLayer = $HUD
 @onready var player: CharacterBody2D = $Player
 @onready var kill_zone: Area2D = $KillZone
+@onready var goal: Area2D = $Goal
 
 const COINS_GROUP: String = "coins"
 const SLIME_GROUP: String = "enemies"
 var collected_coins: int = 0
+var player_won: bool = false
 
 func _ready() -> void:
 	# Obtener coins y enemies
@@ -21,6 +23,7 @@ func _ready() -> void:
 		enemy.hit_player.connect(_on_die_player)
 		
 	kill_zone.hit_player.connect(_on_die_player)
+	goal.player_entered.connect(_on_player_won)
 		
 		
 func _on_coin_collected() -> void:
@@ -29,8 +32,16 @@ func _on_coin_collected() -> void:
 	
 	
 func _on_die_player() -> void:
-	if player.is_dead:
+	if player_won or player.is_dead:
 		return
 	player.die()
 	await get_tree().create_timer(1.0).timeout
 	get_tree().reload_current_scene()
+	
+func _on_player_won() -> void:
+	if player_won or player.is_dead:
+		return
+	
+	player_won = true
+	player.set_physics_process(false)
+	print("Gano el player")
