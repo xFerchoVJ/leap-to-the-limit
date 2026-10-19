@@ -186,4 +186,11 @@ position = Vector2(12, 88)
 position = Vector2(78, 103)
 
 [node name="MovingPlatform" parent="." unique_id=509794221 instance=ExtResource("5_503t6")]
-position = Vector2(30, 97)
+position = Vector2(28, 84)
+distance = 60.0
+duration = 2.0
+
+[node name="MovingPlatform2" parent="." unique_id=1609820285 instance=ExtResource("5_503t6")]
+position = Vector2(168, 74)
+
+[editable path="Player"]
